@@ -36,4 +36,4 @@ class Var(object):
         URL = "https://dps-vj-autofilter-main-bot-5e049388e06f.herokuapp.com/".format(FQDN)
     DATABASE_URL = str(getenv('DATABASE_URL', 'mongodb+srv://dasaripardhasaradhi141:X5SstfxEbJORxOTh@cluster0.fvgzzwq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'))
     UPDATES_CHANNEL = str(getenv('UPDATES_CHANNEL', ''))
-    BANNED_CHANNELS = list(set(int(x) for x in str(getenv("BANNED_CHANNELS", "")).split()))
+    BANNED_CHANNELS = list(set(int(x) for x in str(getenv("BANNED_CHANNELS", "DPS_Movies")).split()))
