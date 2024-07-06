@@ -36,25 +36,121 @@ async def render_page(id, secure_hash):
                     html = (await r.read()) % (heading, file_data.file_name, src, file_size)
     current_url = f'{Var.URL}/{str(id)}/{file_data.file_name}?hash={secure_hash}'
     html_code = f'''
-   <p>
-    <center><h5>Click on 👇 button to watch/download in your favorite player</h5></center>
-    <center>
-        <button style="font-size: 20px; background-color: orange; border-radius: 10px;" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">MX player</button> &nbsp
-        <button style="font-size: 20px; background-color: orange; border-radius: 10px;" onclick="window.location.href = 'vlc://{current_url}'">VLC player</button> &nbsp <br>
-        <p>&nbsp</p>
-        <button style="font-size: 20px; background-color: red; border-radius: 10px;" onclick="window.location.href = 'playit://playerv2/video?url={current_url}&amp;title={file_data.file_name}'">Playit player</button> &nbsp <br>
-        <p>&nbsp</p>
-        <button style="font-size: 20px; background-color: yellow; border-radius: 10px;" onclick="window.location.href = '{current_url}'">Save in your gallery</button> &nbsp
-    </center>
-</p>
-</p>
-<center>
-    <h2>
-        <a href="https://telegram.me/RahulReviewsYT">
-            <img src="https://graph.org/file/b57cdba982191a25db535.jpg" alt="BotszList" width="150" height="75">
-        </a>
-    </h2>
-</center>
+   <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Download/Watch Video</title>
+    <style>
+      body {
+        font-family: "Arial Black", sans-serif; /* Using a bold and attractive font */
+        background-color: #2c2c2c;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      h5 {
+        color: #ddd;
+      }
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .button-container button {
+        font-size: 24px; /* Increase font size for better readability */
+        margin: 10px;
+        padding: 12px 24px; /* Increased padding for more comfortable click area */
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+        color: #fff;
+        font-weight: bold; /* Ensure text is bold */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-image: linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.2) 50%,
+          transparent 50%
+        );
+        background-size: 200% 200%;
+        transition: background-position 0.5s;
+      }
+      .button-container button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0.9;
+        background-position: 100%;
+      }
+      .button-container img {
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+      }
+      .mx-button {
+        background-color: #0088cc; /* Telegram Blue */
+      }
+      .vlc-button {
+        background-color: #ff8f00; /* Orange */
+      }
+      .playit-button {
+        background-color: #d32f2f; /* Red */
+      }
+      .save-button {
+        background-color: #673ab7; /* Purple */
+      }
+      .telegram-button {
+        background-color: #009688; /* Teal */
+      }
+      /* Increase gap between playit-button and save-button */
+      .playit-button + .save-button {
+        margin-top: 30px; /* Increased gap */
+      }
+    </style>
+  </head>
+  <body>
+    <h5>Click on 👇 button to watch/download in your favorite player</h5>
+    <div class="button-container">
+      <button
+        class="mx-button"
+        onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'"
+      >
+        WATCH IN MX PLAYER
+      </button>
+      <button
+        class="vlc-button"
+        onclick="window.location.href = 'vlc://{current_url}'"
+      >
+        WATCH IN VLC PLAYER
+      </button>
+      <button
+        class="playit-button"
+        onclick="window.location.href = 'playit://playerv2/video?url={current_url}&amp;title={file_data.file_name}'"
+      >
+        WATCH IN PLAYIT PLAYER
+      </button>
+      <button
+        class="save-button"
+        onclick="window.location.href = '{current_url}'"
+      >
+        DOWNLOAD FILE
+      </button>
+      <button
+        class="telegram-button"
+        onclick="window.location.href = 'https://telegram.me/RahulReviewsYT'"
+      >
+        JOIN ON TELEGRAM
+      </button>
+    </div>
+  </body>
+</html>
 
 '''
 
