@@ -55,15 +55,19 @@ async def render_page(id, secure_hash):
                 justify-content: center;
                 height: 100vh;
                 margin: 0;
+                padding: 10px; /* Adjusted padding for better spacing */
             }}
-            h5 {{
+            h1 {{
                 color: #ddd;
                 margin-bottom: 20px; /* Added margin for better spacing */
+                text-align: center; /* Center align the text */
             }}
             .button-container {{
                 display: flex;
-                flex-direction: column;
-                align-items: center;
+                flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+                justify-content: center;
+                margin-top: 20px; /* Added margin for spacing from h1 */
+                max-width: 100%; /* Ensure buttons don't overflow on small screens */
             }}
             .button-container button {{
                 font-size: 18px; /* Decreased font size for buttons */
@@ -116,10 +120,16 @@ async def render_page(id, secure_hash):
             .playit-button + .save-button {{
                 margin-top: 24px; /* Increased gap */
             }}
+            @media screen and (max-width: 768px) {{
+                .button-container {{
+                    flex-direction: column; /* Stack buttons vertically on smaller screens */
+                    align-items: center; /* Center align buttons */
+                }}
+            }}
         </style>
     </head>
     <body>
-        <h5>Click on 👇 button to watch/download in your favorite player</h5>
+        <h1>{heading}</h1>
         <div class="button-container">
             <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
                 WATCH IN MX PLAYER
