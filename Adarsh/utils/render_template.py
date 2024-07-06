@@ -41,12 +41,12 @@ async def render_page(id, secure_hash):
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{heading}</title>
         <style>
             body {{
-                font-family: "Arial Black", sans-serif;
+                font-family: "Arial Black", sans-serif; /* Using a bold and attractive font */
                 background-color: #2c2c2c;
                 color: #fff;
                 display: flex;
@@ -55,33 +55,34 @@ async def render_page(id, secure_hash):
                 justify-content: center;
                 height: 100vh;
                 margin: 0;
-                padding: 0 20px; /* Added padding for better layout */
             }}
             h5 {{
                 color: #ddd;
-                margin-bottom: 20px;
-                text-align: center; /* Center text */
+                margin-bottom: 20px; /* Added margin for better spacing */
+            }}
+            .container {{
+                width: 80%; /* Adjusted width for PC */
+                max-width: 800px; /* Maximum width for better readability */
+                padding: 20px; /* Added padding for content */
             }}
             .button-container {{
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                width: 100%;
-                max-width: 400px; /* Adjust max-width as needed */
                 margin-top: 20px; /* Added margin */
             }}
             .button-container button {{
-                font-size: 16px;
-                margin: 8px;
-                padding: 10px 20px;
+                font-size: 18px; /* Decreased font size for buttons */
+                margin: 8px; /* Reduced margin */
+                padding: 10px 20px; /* Decreased padding */
                 border: none;
-                border-radius: 8px;
+                border-radius: 8px; /* Reduced border radius */
                 cursor: pointer;
                 display: flex;
                 align-items: center;
                 transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
                 color: #fff;
-                font-weight: bold;
+                font-weight: bold; /* Ensure text is bold */
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 background-image: linear-gradient(
                     45deg,
@@ -99,9 +100,9 @@ async def render_page(id, secure_hash):
                 background-position: 100%;
             }}
             .button-container img {{
-                margin-right: 8px;
-                width: 26px;
-                height: 26px;
+                margin-right: 8px; /* Reduced margin */
+                width: 26px; /* Reduced size */
+                height: 26px; /* Reduced size */
             }}
             .mx-button {{
                 background-color: #0088cc; /* Telegram Blue */
@@ -118,38 +119,32 @@ async def render_page(id, secure_hash):
             .telegram-button {{
                 background-color: #009688; /* Teal */
             }}
+            /* Increase gap between playit-button and save-button */
             .playit-button + .save-button {{
                 margin-top: 24px; /* Increased gap */
-            }}
-
-            @media screen and (max-width: 600px) {{
-                .button-container {{
-                    max-width: 300px; /* Adjust for smaller screens */
-                }}
-                .button-container button {{
-                    font-size: 14px; /* Decrease font size further */
-                }}
             }}
         </style>
     </head>
     <body>
-        <h5>{heading}</h5> <!-- Display heading here -->
-        <div class="button-container">
-            <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
-                WATCH IN MX PLAYER
-            </button>
-            <button class="vlc-button" onclick="window.location.href = 'vlc://{current_url}'">
-                WATCH IN VLC PLAYER
-            </button>
-            <button class="playit-button" onclick="window.location.href = 'playit://playerv2/video?url={current_url}&amp;title={file_data.file_name}'">
-                WATCH IN PLAYIT PLAYER
-            </button>
-            <button class="save-button" onclick="window.location.href = '{current_url}'">
-                DOWNLOAD FILE
-            </button>
-            <button class="telegram-button" onclick="window.location.href = 'https://telegram.me/RahulReviewsYT'">
-                JOIN ON TELEGRAM
-            </button>
+        <div class="container">
+            <h5>Click on 👇 button to watch/download in your favorite player</h5>
+            <div class="button-container">
+                <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
+                    WATCH IN MX PLAYER
+                </button>
+                <button class="vlc-button" onclick="window.location.href = 'vlc://{current_url}'">
+                    WATCH IN VLC PLAYER
+                </button>
+                <button class="playit-button" onclick="window.location.href = 'playit://playerv2/video?url={current_url}&amp;title={file_data.file_name}'">
+                    WATCH IN PLAYIT PLAYER
+                </button>
+                <button class="save-button" onclick="window.location.href = '{current_url}'">
+                    DOWNLOAD FILE
+                </button>
+                <button class="telegram-button" onclick="window.location.href = 'https://telegram.me/RahulReviewsYT'">
+                    JOIN ON TELEGRAM
+                </button>
+            </div>
         </div>
     </body>
     </html>
