@@ -121,6 +121,12 @@ async def render_page(id, secure_hash):
             .playit-button + .save-button {{
                 margin-top: 24px; /* Increased gap */
             }}
+            @media screen and (max-width: 768px) {{
+                .button-container {{
+                    flex-direction: column; /* Stack buttons vertically on smaller screens */
+                    align-items: center; /* Center align buttons */
+                }}
+            }}
         </style>
     </head>
     <body>
