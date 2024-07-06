@@ -55,19 +55,15 @@ async def render_page(id, secure_hash):
                 justify-content: center;
                 height: 100vh;
                 margin: 0;
-                padding: 10px; /* Adjusted padding for better spacing */
             }}
             h5 {{
                 color: #ddd;
                 margin-bottom: 20px; /* Added margin for better spacing */
-                text-align: center; /* Center align the text */
             }}
             .button-container {{
                 display: flex;
-                flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-                justify-content: center;
-                margin-top: 20px; /* Added margin for spacing from h5 */
-                max-width: 100%; /* Ensure buttons don't overflow on small screens */
+                flex-direction: column;
+                align-items: center;
             }}
             .button-container button {{
                 font-size: 18px; /* Decreased font size for buttons */
@@ -78,7 +74,6 @@ async def render_page(id, secure_hash):
                 cursor: pointer;
                 display: flex;
                 align-items: center;
-                justify-content: center;
                 transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
                 color: #fff;
                 font-weight: bold; /* Ensure text is bold */
@@ -120,12 +115,6 @@ async def render_page(id, secure_hash):
             /* Increase gap between playit-button and save-button */
             .playit-button + .save-button {{
                 margin-top: 24px; /* Increased gap */
-            }}
-            @media screen and (max-width: 768px) {{
-                .button-container {{
-                    flex-direction: column; /* Stack buttons vertically on smaller screens */
-                    align-items: center; /* Center align buttons */
-                }}
             }}
         </style>
     </head>
