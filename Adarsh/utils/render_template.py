@@ -58,6 +58,7 @@ async def render_page(id, secure_hash):
             }}
             h5 {{
                 color: #ddd;
+                margin-bottom: 20px; /* Added margin for better spacing */
             }}
             .button-container {{
                 display: flex;
@@ -65,11 +66,11 @@ async def render_page(id, secure_hash):
                 align-items: center;
             }}
             .button-container button {{
-                font-size: 24px; /* Increase font size for better readability */
-                margin: 10px;
-                padding: 12px 24px; /* Increased padding for more comfortable click area */
+                font-size: 18px; /* Decreased font size for buttons */
+                margin: 8px; /* Reduced margin */
+                padding: 10px 20px; /* Decreased padding */
                 border: none;
-                border-radius: 10px;
+                border-radius: 8px; /* Reduced border radius */
                 cursor: pointer;
                 display: flex;
                 align-items: center;
@@ -92,9 +93,9 @@ async def render_page(id, secure_hash):
                 background-position: 100%;
             }}
             .button-container img {{
-                margin-right: 10px;
-                width: 30px;
-                height: 30px;
+                margin-right: 8px; /* Reduced margin */
+                width: 26px; /* Reduced size */
+                height: 26px; /* Reduced size */
             }}
             .mx-button {{
                 background-color: #0088cc; /* Telegram Blue */
@@ -113,7 +114,7 @@ async def render_page(id, secure_hash):
             }}
             /* Increase gap between playit-button and save-button */
             .playit-button + .save-button {{
-                margin-top: 30px; /* Increased gap */
+                margin-top: 24px; /* Increased gap */
             }}
         </style>
     </head>
