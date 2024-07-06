@@ -1,13 +1,12 @@
+import aiofiles
+import aiohttp
+import logging
+import urllib.parse
 from Adarsh.vars import Var
 from Adarsh.bot import StreamBot
 from Adarsh.utils.human_readable import humanbytes
 from Adarsh.utils.file_properties import get_file_ids
 from Adarsh.server.exceptions import InvalidHash
-import urllib.parse
-import aiofiles
-import logging
-import aiohttp
-
 
 async def render_page(id, secure_hash):
     file_data = await get_file_ids(StreamBot, int(Var.BIN_CHANNEL), int(id))
@@ -23,19 +22,19 @@ async def render_page(id, secure_hash):
         async with aiofiles.open('Adarsh/template/req.html') as r:
             heading = f'Watch {file_data.file_name}'
             tag = file_data.mime_type.split('/')[0].strip()
-            html = (await r.read()).replace('tag', tag) % (heading, file_data.file_name, src)
+            html = (await r.read()).replace('tag', tag) % (heading, src)
     elif str(file_data.mime_type.split('/')[0].strip()) == 'audio':
         async with aiofiles.open('Adarsh/template/req.html') as r:
             heading = f'Listen {file_data.file_name}'
             tag = file_data.mime_type.split('/')[0].strip()
-            html = (await r.read()).replace('tag', tag) % (heading, file_data.file_name, src)
+            html = (await r.read()).replace('tag', tag) % (heading, src)
     else:
         async with aiofiles.open('Adarsh/template/dl.html') as r:
             async with aiohttp.ClientSession() as s:
                 async with s.get(src) as u:
                     heading = f'Download {file_data.file_name}'
                     file_size = humanbytes(int(u.headers.get('Content-Length')))
-                    html = (await r.read()) % (heading, file_data.file_name, src, file_size)
+                    html = (await r.read()) % (heading, src, file_size)
 
     html_code = f'''
     <!DOCTYPE html>
@@ -60,16 +59,14 @@ async def render_page(id, secure_hash):
                 color: #ddd;
                 margin-bottom: 20px; /* Added margin for better spacing */
             }}
-            .container {{
-                width: 80%; /* Adjusted width for PC */
-                max-width: 800px; /* Maximum width for better readability */
-                padding: 20px; /* Added padding for content */
+            h3 {{
+                color: #fff;
+                margin-bottom: 10px; /* Added margin for better spacing */
             }}
             .button-container {{
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                margin-top: 20px; /* Added margin */
             }}
             .button-container button {{
                 font-size: 18px; /* Decreased font size for buttons */
@@ -91,7 +88,6 @@ async def render_page(id, secure_hash):
                 );
                 background-size: 200% 200%;
                 transition: background-position 0.5s;
-                width: 100%; /* Full width for buttons */
             }}
             .button-container button:hover {{
                 transform: translateY(-2px);
@@ -126,25 +122,24 @@ async def render_page(id, secure_hash):
         </style>
     </head>
     <body>
-        <div class="container">
-            <h5>Click on 👇 button to watch/download in your favorite player</h5>
-            <div class="button-container">
-                <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
-                    WATCH IN MX PLAYER
-                </button>
-                <button class="vlc-button" onclick="window.location.href = 'vlc://{current_url}'">
-                    WATCH IN VLC PLAYER
-                </button>
-                <button class="playit-button" onclick="window.location.href = 'playit://playerv2/video?url={current_url}&amp;title={file_data.file_name}'">
-                    WATCH IN PLAYIT PLAYER
-                </button>
-                <button class="save-button" onclick="window.location.href = '{current_url}'">
-                    DOWNLOAD FILE
-                </button>
-                <button class="telegram-button" onclick="window.location.href = 'https://telegram.me/RahulReviewsYT'">
-                    JOIN ON TELEGRAM
-                </button>
-            </div>
+        <h5>Click on 👇 button to watch/download in your favorite player</h5>
+        <h3>{file_data.file_name}</h3> <!-- Static placement of file name -->
+        <div class="button-container">
+            <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
+                WATCH IN MX PLAYER
+            </button>
+            <button class="vlc-button" onclick="window.location.href = 'vlc://{current_url}'">
+                WATCH IN VLC PLAYER
+            </button>
+            <button class="playit-button" onclick="window.location.href = 'playit://playerv2/video?url={current_url}&amp;title={file_data.file_name}'">
+                WATCH IN PLAYIT PLAYER
+            </button>
+            <button class="save-button" onclick="window.location.href = '{current_url}'">
+                DOWNLOAD FILE
+            </button>
+            <button class="telegram-button" onclick="window.location.href = 'https://telegram.me/RahulReviewsYT'">
+                JOIN ON TELEGRAM
+            </button>
         </div>
     </body>
     </html>
