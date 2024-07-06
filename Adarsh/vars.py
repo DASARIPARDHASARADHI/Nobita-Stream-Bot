@@ -31,9 +31,9 @@ class Var(object):
     FQDN = str(getenv('FQDN', BIND_ADRESS)) if not ON_HEROKU or getenv('FQDN') else APP_NAME+'.herokuapp.com'
     HAS_SSL=bool(getenv('HAS_SSL', True))
     if HAS_SSL:
-        URL = "https://dps-vj-autofilter-main-bot-5e049388e06f.herokuapp.com/".format(FQDN)
+        URL = "https://dps-stream1-bot-fb3dcc39fb87.herokuapp.com/".format(FQDN)
     else:
-        URL = "https://dps-vj-autofilter-main-bot-5e049388e06f.herokuapp.com/".format(FQDN)
+        URL = "https://dps-stream1-bot-fb3dcc39fb87.herokuapp.com/".format(FQDN)
     DATABASE_URL = str(getenv('DATABASE_URL', 'mongodb+srv://dasaripardhasaradhi141:X5SstfxEbJORxOTh@cluster0.fvgzzwq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'))
     UPDATES_CHANNEL = str(getenv('UPDATES_CHANNEL', 'DPS_Movies'))
     BANNED_CHANNELS = list(set(int(x) for x in str(getenv("BANNED_CHANNELS", "")).split()))
