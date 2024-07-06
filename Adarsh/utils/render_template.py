@@ -67,6 +67,7 @@ async def render_page(id, secure_hash):
                 flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
                 justify-content: center;
                 margin-top: 20px; /* Added margin for spacing from h5 */
+                max-width: 100%; /* Ensure buttons don't overflow on small screens */
             }}
             .button-container button {{
                 font-size: 18px; /* Decreased font size for buttons */
