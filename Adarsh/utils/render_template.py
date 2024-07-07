@@ -43,7 +43,7 @@ async def render_page(id, secure_hash):
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{heading}</title>
+        <title>{file_data.file_name}</title>
         <style>
             body {{
                 font-family: "Arial Black", sans-serif; /* Using a bold and attractive font */
@@ -61,27 +61,15 @@ async def render_page(id, secure_hash):
                 color: #ddd;
                 text-align: center; /* Center align the text */
             }}
-            .video-container {{
-                width: 100%;
-                max-width: 800px; /* Set max width for larger screens */
+            .file-name {{
+                font-size: 24px;
                 margin-bottom: 20px;
-            }}
-            video {{
-                width: 100%; /* Make video responsive */
-                height: auto;
-            }}
-            .static-file-name {{
-                font-size: 18px;
-                color: #fff;
-                margin-bottom: 20px; /* Added margin for spacing */
-                text-align: center; /* Center align the text */
+                text-align: center;
             }}
             .button-container {{
                 display: flex;
-                flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-                justify-content: center;
-                margin-top: 20px; /* Added margin for spacing from h1 */
-                max-width: 100%; /* Ensure buttons don't overflow on small screens */
+                flex-direction: column;
+                align-items: center;
             }}
             .button-container button {{
                 font-size: 18px; /* Decreased font size for buttons */
@@ -139,20 +127,11 @@ async def render_page(id, secure_hash):
                     flex-direction: column; /* Stack buttons vertically on smaller screens */
                     align-items: center; /* Center align buttons */
                 }}
-                .video-container {{
-                    max-width: 100%; /* Ensure video container is responsive */
-                }}
             }}
         </style>
     </head>
     <body>
-        <div class="video-container">
-            <video controls>
-                <source src="{src}" type="{file_data.mime_type}">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="static-file-name">Static File Name</div>
+        <div class="file-name">{file_data.file_name}</div>
         <h5>Click on 👇 button to watch/download in your favorite player</h5>
         <div class="button-container">
             <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
