@@ -122,6 +122,16 @@ async def render_page(id, secure_hash):
             .playit-button + .save-button {{
                 margin-top: 30px; /* Increased gap */
             }}
+            video {{
+                max-width: 100%;
+                max-height: 80vh; /* Adjusted height to ensure visibility */
+            }}
+            @media screen and (min-width: 769px) {{
+                video {{
+                    width: 70%; /* Increase size of the video for larger screens */
+                    height: auto;
+                }}
+            }}
             @media screen and (max-width: 768px) {{
                 .button-container {{
                     flex-direction: column; /* Stack buttons vertically on smaller screens */
