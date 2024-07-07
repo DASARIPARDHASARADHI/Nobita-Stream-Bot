@@ -96,7 +96,7 @@ async def render_page(id, secure_hash):
         </style>
       </head>
       <body>
-        <h2>{file_data.file_name}</h2>
+        <h4>File Name : {file_data.file_name}</h4>
         <h5>Click on 👇 button to watch/download in your favorite player</h5>
         <div class="button-container">
           <button
