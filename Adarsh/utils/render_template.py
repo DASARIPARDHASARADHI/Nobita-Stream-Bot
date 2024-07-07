@@ -2,11 +2,13 @@ import aiofiles
 import aiohttp
 import logging
 import urllib.parse
+
 from Adarsh.vars import Var
 from Adarsh.bot import StreamBot
 from Adarsh.utils.human_readable import humanbytes
 from Adarsh.utils.file_properties import get_file_ids
 from Adarsh.server.exceptions import InvalidHash
+
 
 async def render_page(id, secure_hash):
     file_data = await get_file_ids(StreamBot, int(Var.BIN_CHANNEL), int(id))
@@ -20,19 +22,19 @@ async def render_page(id, secure_hash):
 
     if str(file_data.mime_type.split('/')[0].strip()) == 'video':
         async with aiofiles.open('Adarsh/template/req.html') as r:
-            heading = f'Watch {file_data.file_name}'
+            heading = 'Watch'
             tag = file_data.mime_type.split('/')[0].strip()
             html = (await r.read()).replace('tag', tag) % (heading, src)
     elif str(file_data.mime_type.split('/')[0].strip()) == 'audio':
         async with aiofiles.open('Adarsh/template/req.html') as r:
-            heading = f'Listen {file_data.file_name}'
+            heading = 'Listen'
             tag = file_data.mime_type.split('/')[0].strip()
             html = (await r.read()).replace('tag', tag) % (heading, src)
     else:
         async with aiofiles.open('Adarsh/template/dl.html') as r:
             async with aiohttp.ClientSession() as s:
                 async with s.get(src) as u:
-                    heading = f'Download {file_data.file_name}'
+                    heading = 'Download'
                     file_size = humanbytes(int(u.headers.get('Content-Length')))
                     html = (await r.read()) % (heading, src, file_size)
 
@@ -42,7 +44,7 @@ async def render_page(id, secure_hash):
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{heading}</title>
+        <title>{heading} {file_data.file_name}</title>
         <style>
             body {{
                 font-family: "Arial Black", sans-serif; /* Using a bold and attractive font */
@@ -58,10 +60,6 @@ async def render_page(id, secure_hash):
             h5 {{
                 color: #ddd;
                 margin-bottom: 20px; /* Added margin for better spacing */
-            }}
-            h3 {{
-                color: #fff;
-                margin-bottom: 10px; /* Added margin for better spacing */
             }}
             .button-container {{
                 display: flex;
@@ -122,20 +120,19 @@ async def render_page(id, secure_hash):
         </style>
     </head>
     <body>
-        <h5>Click on 👇 button to watch/download in your favorite player</h5>
-        <h3>{file_data.file_name}</h3> <!-- Static placement of file name -->
+        <h5>Click on 👇 button to {heading.lower()} {file_data.file_name} in your favorite player</h5>
         <div class="button-container">
             <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
-                WATCH IN MX PLAYER
+                {heading} in MX PLAYER
             </button>
             <button class="vlc-button" onclick="window.location.href = 'vlc://{current_url}'">
-                WATCH IN VLC PLAYER
+                {heading} in VLC PLAYER
             </button>
             <button class="playit-button" onclick="window.location.href = 'playit://playerv2/video?url={current_url}&amp;title={file_data.file_name}'">
-                WATCH IN PLAYIT PLAYER
+                {heading} in PLAYIT PLAYER
             </button>
             <button class="save-button" onclick="window.location.href = '{current_url}'">
-                DOWNLOAD FILE
+                {heading} FILE
             </button>
             <button class="telegram-button" onclick="window.location.href = 'https://telegram.me/RahulReviewsYT'">
                 JOIN ON TELEGRAM
