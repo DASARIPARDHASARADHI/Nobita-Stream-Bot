@@ -55,21 +55,40 @@ async def render_page(id, secure_hash):
                 justify-content: center;
                 height: 100vh;
                 margin: 0;
+                padding: 10px;
             }}
             h5 {{
                 color: #ddd;
+                text-align: center; /* Center align the text */
+            }}
+            .video-container {{
+                width: 100%;
+                max-width: 800px; /* Set max width for larger screens */
+                margin-bottom: 20px;
+            }}
+            video {{
+                width: 100%; /* Make video responsive */
+                height: auto;
+            }}
+            .static-file-name {{
+                font-size: 18px;
+                color: #fff;
+                margin-bottom: 20px; /* Added margin for spacing */
+                text-align: center; /* Center align the text */
             }}
             .button-container {{
                 display: flex;
-                flex-direction: column;
-                align-items: center;
+                flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+                justify-content: center;
+                margin-top: 20px; /* Added margin for spacing from h1 */
+                max-width: 100%; /* Ensure buttons don't overflow on small screens */
             }}
             .button-container button {{
-                font-size: 24px; /* Increase font size for better readability */
-                margin: 10px;
-                padding: 12px 24px; /* Increased padding for more comfortable click area */
+                font-size: 18px; /* Decreased font size for buttons */
+                margin: 8px; /* Reduced margin */
+                padding: 10px 20px; /* Decreased padding */
                 border: none;
-                border-radius: 10px;
+                border-radius: 8px; /* Reduced border radius */
                 cursor: pointer;
                 display: flex;
                 align-items: center;
@@ -92,9 +111,9 @@ async def render_page(id, secure_hash):
                 background-position: 100%;
             }}
             .button-container img {{
-                margin-right: 10px;
-                width: 30px;
-                height: 30px;
+                margin-right: 8px; /* Reduced margin */
+                width: 26px; /* Reduced size */
+                height: 26px; /* Reduced size */
             }}
             .mx-button {{
                 background-color: #0088cc; /* Telegram Blue */
@@ -115,9 +134,25 @@ async def render_page(id, secure_hash):
             .playit-button + .save-button {{
                 margin-top: 30px; /* Increased gap */
             }}
+            @media screen and (max-width: 768px) {{
+                .button-container {{
+                    flex-direction: column; /* Stack buttons vertically on smaller screens */
+                    align-items: center; /* Center align buttons */
+                }}
+                .video-container {{
+                    max-width: 100%; /* Ensure video container is responsive */
+                }}
+            }}
         </style>
     </head>
     <body>
+        <div class="video-container">
+            <video controls>
+                <source src="{src}" type="{file_data.mime_type}">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="static-file-name">Static File Name</div>
         <h5>Click on 👇 button to watch/download in your favorite player</h5>
         <div class="button-container">
             <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
