@@ -43,7 +43,6 @@ async def render_page(id, secure_hash):
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{heading}</title>
         <style>
             body {{
                 font-family: "Arial Black", sans-serif; /* Using a bold and attractive font */
@@ -119,7 +118,8 @@ async def render_page(id, secure_hash):
         </style>
     </head>
     <body>
-        <h5>Click on 👇 button to watch/download in your favorite player</h5>
+        <h3>File Name : {file_data.file_name}</h3>
+        <h5>Video not playing/ sound not coming? Check below buttons to play the video in your favourite player ⚡️</h5>
         <div class="button-container">
             <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
                 WATCH IN MX PLAYER
