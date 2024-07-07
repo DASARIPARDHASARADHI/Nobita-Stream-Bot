@@ -8,160 +8,130 @@ import aiofiles
 import logging
 import aiohttp
 
-
 async def render_page(id, secure_hash):
     file_data = await get_file_ids(StreamBot, int(Var.BIN_CHANNEL), int(id))
     if file_data.unique_id[:6] != secure_hash:
         logging.debug(f'link hash: {secure_hash} - {file_data.unique_id[:6]}')
         logging.debug(f"Invalid hash for message with - ID {id}")
         raise InvalidHash
-    
     src = urllib.parse.urljoin(Var.URL, f'{secure_hash}{str(id)}')
-    current_url = f'{Var.URL}/{str(id)}/{file_data.file_name}?hash={secure_hash}'
 
     if str(file_data.mime_type.split('/')[0].strip()) == 'video':
         async with aiofiles.open('Adarsh/template/req.html') as r:
-            heading = f'Watch {file_data.file_name}'
+            heading = 'Watch {}'.format(file_data.file_name)
             tag = file_data.mime_type.split('/')[0].strip()
             html = (await r.read()).replace('tag', tag) % (heading, file_data.file_name, src)
     elif str(file_data.mime_type.split('/')[0].strip()) == 'audio':
         async with aiofiles.open('Adarsh/template/req.html') as r:
-            heading = f'Listen {file_data.file_name}'
+            heading = 'Listen {}'.format(file_data.file_name)
             tag = file_data.mime_type.split('/')[0].strip()
             html = (await r.read()).replace('tag', tag) % (heading, file_data.file_name, src)
     else:
         async with aiofiles.open('Adarsh/template/dl.html') as r:
             async with aiohttp.ClientSession() as s:
                 async with s.get(src) as u:
-                    heading = f'Download {file_data.file_name}'
+                    heading = 'Download {}'.format(file_data.file_name)
                     file_size = humanbytes(int(u.headers.get('Content-Length')))
                     html = (await r.read()) % (heading, file_data.file_name, src, file_size)
+
+    current_url = f'{Var.URL}/{str(id)}/{file_data.file_name}?hash={secure_hash}'
 
     html_code = f'''
     <!DOCTYPE html>
     <html lang="en">
-    <head>
+      <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{file_data.file_name}</title>
+        <title>Download/Watch Video</title>
         <style>
-            body {{
-                font-family: "Arial Black", sans-serif; /* Using a bold and attractive font */
-                background-color: #2c2c2c;
-                color: #fff;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 100vh;
-                margin: 0;
-                padding: 10px;
-            }}
-            h5 {{
-                color: #ddd;
-                text-align: center; /* Center align the text */
-            }}
-            .file-name {{
-                font-size: 24px;
-                margin-bottom: 20px;
-                text-align: center;
-            }}
-            .button-container {{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }}
-            .button-container button {{
-                font-size: 18px; /* Decreased font size for buttons */
-                margin: 8px; /* Reduced margin */
-                padding: 10px 20px; /* Decreased padding */
-                border: none;
-                border-radius: 8px; /* Reduced border radius */
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-                color: #fff;
-                font-weight: bold; /* Ensure text is bold */
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                background-image: linear-gradient(
-                    45deg,
-                    rgba(255, 255, 255, 0.2) 50%,
-                    transparent 50%
-                );
-                background-size: 200% 200%;
-                transition: background-position 0.5s;
-            }}
-            .button-container button:hover {{
-                transform: translateY(-2px);
-                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-                opacity: 0.9;
-                background-position: 100%;
-            }}
-            .button-container img {{
-                margin-right: 8px; /* Reduced margin */
-                width: 26px; /* Reduced size */
-                height: 26px; /* Reduced size */
-            }}
-            .mx-button {{
-                background-color: #0088cc; /* Telegram Blue */
-            }}
-            .vlc-button {{
-                background-color: #ff8f00; /* Orange */
-            }}
-            .playit-button {{
-                background-color: #d32f2f; /* Red */
-            }}
-            .save-button {{
-                background-color: #673ab7; /* Purple */
-            }}
-            .telegram-button {{
-                background-color: #009688; /* Teal */
-            }}
-            /* Increase gap between playit-button and save-button */
-            .playit-button + .save-button {{
-                margin-top: 30px; /* Increased gap */
-            }}
-            video {{
-                max-width: 100%;
-                max-height: 80vh; /* Adjusted height to ensure visibility */
-            }}
-            @media screen and (min-width: 769px) {{
-                video {{
-                    width: 70%; /* Increase size of the video for larger screens */
-                    height: auto;
-                }}
-            }}
-            @media screen and (max-width: 768px) {{
-                .button-container {{
-                    flex-direction: column; /* Stack buttons vertically on smaller screens */
-                    align-items: center; /* Center align buttons */
-                }}
-            }}
+          body {{
+            font-family: Arial, sans-serif;
+            background-color: #2c2c2c;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+          }}
+          h5 {{
+            color: #ddd;
+          }}
+          .button-container {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }}
+          .button-container button {{
+            font-size: 20px;
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: opacity 0.3s;
+            color: #fff;
+          }}
+          .button-container button:hover {{
+            opacity: 0.8;
+          }}
+          .mx-button {{
+            background-color: #0088cc;
+          }}
+          .vlc-button {{
+            background-color: #ff8f00;
+          }}
+          .playit-button {{
+            background-color: #d32f2f;
+          }}
+          .save-button {{
+            background-color: #673ab7;
+          }}
+          .telegram-button {{
+            background-color: #009688;
+          }}
         </style>
-    </head>
-    <body>
-        <div class="file-name">{file_data.file_name}</div>
+      </head>
+      <body>
         <h5>Click on 👇 button to watch/download in your favorite player</h5>
         <div class="button-container">
-            <button class="mx-button" onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'">
-                WATCH IN MX PLAYER
-            </button>
-            <button class="vlc-button" onclick="window.location.href = 'vlc://{current_url}'">
-                WATCH IN VLC PLAYER
-            </button>
-            <button class="playit-button" onclick="window.location.href = 'playit://playerv2/video?url={current_url}&amp;title={file_data.file_name}'">
-                WATCH IN PLAYIT PLAYER
-            </button>
-            <button class="save-button" onclick="window.location.href = '{current_url}'">
-                DOWNLOAD FILE
-            </button>
-            <button class="telegram-button" onclick="window.location.href = 'https://telegram.me/RahulReviewsYT'">
-                JOIN ON TELEGRAM
-            </button>
+          <button
+            class="mx-button"
+            onclick="window.location.href = 'intent:{current_url}#Intent;package=com.mxtech.videoplayer.ad;S.title={file_data.file_name};end'"
+          >
+            WATCH IN MX PLAYER
+          </button>
+          <button
+            class="vlc-button"
+            onclick="window.location.href = 'vlc://{current_url}'"
+          >
+            WATCH IN VLC PLAYER
+          </button>
+          <button
+            class="playit-button"
+            onclick="window.location.href = 'playit://playerv2/video?url={current_url}&amp;title={file_data.file_name}'"
+          >
+            WATCH IN PLAYIT PLAYER
+          </button>
+          <button
+            class="save-button"
+            onclick="window.location.href = '{current_url}'"
+          >
+            DOWNLOAD FILE
+          </button>
+          <button
+            class="telegram-button"
+            onclick="window.location.href = 'https://telegram.me/RahulReviewsYT'"
+          >
+            JOIN ON TELEGRAM
+          </button>
         </div>
-    </body>
+      </body>
     </html>
     '''
 
-    return html + html_code
+    html += html_code
+    return html
