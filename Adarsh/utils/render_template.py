@@ -96,8 +96,8 @@ async def render_page(id, secure_hash):
         </style>
       </head>
       <body>
-        <h4>File Name : {file_data.file_name}</h4>
-        <h5>Click on 👇 button to watch/download in your favorite player</h5>
+        <h3>File Name : {file_data.file_name}</h3>
+        <h5>Video not playing/ sound not coming? Check below buttons to play the video in your favourite player ⚡️</h5>
         <div class="button-container">
           <button
             class="mx-button"
